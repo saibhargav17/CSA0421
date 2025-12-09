@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() {
+    int fd;
+    char buffer[100];
+
+    fd = open("demo.txt", O_RDWR | O_CREAT, 0644);
+    if (fd < 0) {
+        perror("open");
+        exit(1);
+    }
+
+    write(fd, "Hello OS Lab\n", 13);
+
+    lseek(fd, 0, SEEK_SET);
+    read(fd, buffer, 13);
+
+    printf("File content: %s", buffer);
+
+    close(fd);
+    unlink("demo.txt");
+
+    return 0;
+}
