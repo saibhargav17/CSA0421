@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <dirent.h>
+
+int main() {
+    int fd = open("sample.txt", O_CREAT | O_RDWR, 0644);
+    if (fd < 0) { perror("open"); return 1; }
+
+    write(fd, "ABCDEFGH", 8);
+    lseek(fd, 4, SEEK_SET);
+
+    // fcntl example
+    int flags = fcntl(fd, F_GETFL);
+    printf("File flags: %d\n", flags);
+
+    // stat example
+    struct stat st;
+    stat("sample.txt", &st);
+    printf("Size = %ld bytes\n", st.st_size);
+
+    // Directory listing using opendir, readdir
+    DIR *d = opendir(".");
+    struct dirent *entry;
+    printf("Files in current directory:\n");
+    while ((entry = readdir(d)) != NULL)
+        printf("%s\n", entry->d_name);
+
+    closedir(d);
+    close(fd);
+
+    return 0;
+}
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <dirent.h>
+
+int main() {
+    int fd = open("sample.txt", O_CREAT | O_RDWR, 0644);
+    if (fd < 0) { perror("open"); return 1; }
+
+    write(fd, "ABCDEFGH", 8);
+    lseek(fd, 4, SEEK_SET);
+
+    // fcntl example
+    int flags = fcntl(fd, F_GETFL);
+    printf("File flags: %d\n", flags);
+
+    // stat example
+    struct stat st;
+    stat("sample.txt", &st);
+    printf("Size = %ld bytes\n", st.st_size);
+
+    // Directory listing using opendir, readdir
+    DIR *d = opendir(".");
+    struct dirent *entry;
+    printf("Files in current directory:\n");
+    while ((entry = readdir(d)) != NULL)
+        printf("%s\n", entry->d_name);
+
+    closedir(d);
+    close(fd);
+
+    return 0;
+}
